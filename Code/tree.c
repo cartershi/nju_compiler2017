@@ -49,9 +49,8 @@ void addleaf(char *name){
         return;
     }
     if (strcmp(name,"ID")==0||strcmp(name,"TYPE")==0){
-        char *chars=(char*)malloc(sizeof(char)*32);
-        strcpy(chars,yytext);
-        newleaf->character=chars;
+        strcpy(newleaf->character,yytext);
+        //newleaf->character=chars;
         return;
     }
     return;

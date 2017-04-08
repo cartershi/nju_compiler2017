@@ -20,7 +20,7 @@ HEX 0[xX][0-9A-Fa-f]{0,8}
 FLOAT (({digits}\.{digits}?)|({digits}?\.{digits}))([eE][+-]?{digits})?
 ID [_a-zA-Z][_a-zA-Z0-9]*
 linezhu \/\/.*$
-blockzhu \/\*([^\*]|\*[^\/])*\*\/
+blockzhu \/\*([^\*]|(\*[^\/]))*\*\/
 %%
 {DEC}   {addleaf("DEC"); return INT;}
 {OCT}   {addleaf("OCT"); return INT;}

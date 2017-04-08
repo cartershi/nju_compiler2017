@@ -7,7 +7,7 @@ typedef struct treenode {
     struct treenode* child;
     struct treenode* sibling;
     union{
-        char* character;
+        char character[32];
         int type_int;
         float type_float;
     };
