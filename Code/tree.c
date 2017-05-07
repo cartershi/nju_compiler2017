@@ -1,4 +1,5 @@
 #include "common.h"
+#include "tree.h"
 #include <stdarg.h>
 #include "syntax.tab.h"
 
@@ -7,6 +8,7 @@ extern int yylineno;
 void addleaf(char *name){
     treenode *newleaf=(treenode*)malloc(sizeof(treenode));
     //printf("%s\n",name);
+    strcpy(newleaf->rawtext,yytext);
     newleaf->name=name;
     newleaf->line=yylineno;
     newleaf->child=NULL;

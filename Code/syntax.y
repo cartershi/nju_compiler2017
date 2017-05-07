@@ -1,5 +1,6 @@
 %{
 #include "common.h"
+#include "tree.h"
 int yylex();
 void yyerror(char* msg);
 extern int yylineno;
@@ -38,7 +39,13 @@ DecList Dec Exp Args
 
 %%
 /*High-level Definitions*/
-Program:ExtDefList{$$=addnode("Program",1,$1); if (errorrec==0) traversal($$,0);}
+Program:ExtDefList{
+           $$=addnode("Program",1,$1);
+           if (errorrec==0){
+               //traversal($$,0);
+               semantic_traversal($$);
+               }
+       }
         ;
 ExtDefList:{$$=addnode("ExtDefList",0);}
           |ExtDef ExtDefList{$$=addnode("ExtDefList",2,$1,$2);}

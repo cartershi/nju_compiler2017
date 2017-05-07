@@ -8,6 +8,7 @@ int main(int argc,char** argv){
             return 1;
         }
     }
+    hash_init();
     yyparse();
     return 0;
 }

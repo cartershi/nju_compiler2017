@@ -1,5 +1,5 @@
-parser: syntax.tab.c tree.c main.c
-	gcc syntax.tab.c tree.c main.c -lfl -ly -o parser
+parser: syntax.tab.c tree.c main.c semantic.c
+	gcc syntax.tab.c tree.c semantic.c main.c -lfl -ly -o parser
 lex.yy.c: lexical.l
 	flex lexical.l
 syntax.tab.c: syntax.y lex.yy.c

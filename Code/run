@@ -1,0 +1,20 @@
+#! /bin/bash
+
+make
+./parser ./testcase/t1.cmm
+./parser ./testcase/t2.cmm
+./parser ./testcase/t3.cmm
+./parser ./testcase/t4.cmm
+./parser ./testcase/t5.cmm
+./parser ./testcase/t6.cmm
+./parser ./testcase/t7.cmm
+./parser ./testcase/t8.cmm
+./parser ./testcase/t9.cmm
+./parser ./testcase/t10.cmm
+./parser ./testcase/t11.cmm
+./parser ./testcase/t12.cmm
+./parser ./testcase/t13.cmm
+./parser ./testcase/t14.cmm
+./parser ./testcase/t15.cmm
+./parser ./testcase/t16.cmm
+./parser ./testcase/t17.cmm

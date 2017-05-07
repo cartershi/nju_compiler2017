@@ -1,0 +1,11 @@
+struct h{
+    int j;
+    float z;
+    struct hh{
+    int a;
+    }jj;
+};
+int main(){
+int i;
+i.x;
+}

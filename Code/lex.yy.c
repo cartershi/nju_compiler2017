@@ -615,7 +615,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "lexical.l"
 #line 2 "lexical.l"
-#include "common.h"
+#include "tree.h"
 #include "syntax.tab.h"
 
 int yycolumn=1;

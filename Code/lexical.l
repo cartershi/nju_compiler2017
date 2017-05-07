@@ -1,5 +1,5 @@
 %{
-#include "common.h"
+#include "tree.h"
 #include "syntax.tab.h"
 
 int yycolumn=1;
