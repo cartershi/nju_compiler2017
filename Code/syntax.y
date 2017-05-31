@@ -14,7 +14,7 @@ int errorrec=0;
 
 %token <node>INT
 %token <node>FLOAT
-%token <node>ID
+%token <node>ID WRITE READ
 %token <node>SEMI COMMA ASSIGNOP RELOP
 %token <node>PLUS MINUS STAR DIV
 %token <node>AND OR DOT NOT TYPE
@@ -43,7 +43,14 @@ Program:ExtDefList{
            $$=addnode("Program",1,$1);
            if (errorrec==0){
                //traversal($$,0);
-               semantic_traversal($$);
+               #if DEBUG
+                printf("semantic_begin\n");
+               #endif
+                semantic_traversal($$);
+               #if DEBUG
+                printf("semantic_end\n");
+               #endif
+               operand_traversal($$);
                }
        }
         ;
@@ -100,6 +107,8 @@ StmtList:Stmt StmtList {$$=addnode("StmtList",2,$1,$2);}
         |{$$=addnode("StmtList",0);}
         ;
 Stmt:Exp SEMI {$$=addnode("Stmt",2,$1,$2);}
+    |WRITE Exp SEMI {$$=addnode("Stmt",3,$1,$2,$3);}
+    |READ Exp SEMI {$$=addnode("Stmt",3,$1,$2,$3);}
     |CompSt {$$=addnode("Stmt",1,$1);}
     |RETURN Exp SEMI {$$=addnode("Stmt",3,$1,$2,$3);}
     |IF LP Exp RP Stmt %prec LOWER_THAN_ELSE {$$=addnode("Stmt",5,$1,$2,$3,$4,$5);}

@@ -14,10 +14,10 @@ void deal_func_use(treenode*,funcnode*);
 void basicoutput(int);
 void field_add(treenode*,senode*,int);
 funcnode* hash_funcfind(char*);
-senode* hash_find(char*);
 int find_st_id(senode*,char*,int);
 void hash_insert(senode*);
 void hash_funcinsert(funcnode*);
 uint32_t hash_pjw(char*);
+void add_read_write();
 #endif
 

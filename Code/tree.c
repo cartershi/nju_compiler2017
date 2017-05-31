@@ -16,6 +16,7 @@ void addleaf(char *name){
     yylval.node=newleaf;
     if (strcmp(name,"DEC")==0){
         newleaf->type_int=atoi(yytext);
+        newleaf->name="INT";
         return;
     }
     if (strcmp(name,"OCT")==0){
@@ -50,7 +51,7 @@ void addleaf(char *name){
         newleaf->type_float=atof(yytext);
         return;
     }
-    if (strcmp(name,"ID")==0||strcmp(name,"TYPE")==0){
+    if (!strcmp(name,"ID")||!strcmp(name,"TYPE")||!strcmp(name,"RELOP")){
         strcpy(newleaf->character,yytext);
         //newleaf->character=chars;
         return;

@@ -160,7 +160,7 @@ void semantic_traversal(treenode* root){
 }
 
 void handle_Exp(treenode* root){
-    //printf("name %s\n",root->child->name);
+    //printf("name %s\n",root->child->character);
     if (strcmp(root->child->name,"Exp")==0){
         if (strcmp(root->child->sibling->name,"ASSIGNOP")==0){  //Exp ASSIGNOP Exp
             treenode* assnode=root->child->child;
@@ -255,6 +255,7 @@ void handle_Exp(treenode* root){
     if (strcmp(root->child->name,"ID")==0){
         if (root->child->sibling!=NULL){
             funcnode* goalnode=hash_funcfind(root->child->character);//find the func namedID
+          
             if (goalnode!=NULL){
                 deal_func_use(root,goalnode);
                 root->exp_type=goalnode->kind;
@@ -294,6 +295,7 @@ void handle_Exp(treenode* root){
         //printf("hhh\n");
         root->exp_rec.exp_float=root->child->type_float;
     }
+    //printf("%s end\n",root->child->character);
 }
 
 int find_st_id(senode* root,char* name,int line){
@@ -502,7 +504,7 @@ void newkind(treenode* root,int bb){
 }
 
 funcnode* hash_funcfind(char* name){
-    //printf("funcfind%s\n",name);
+    //printf("funcfind %s\n",name);
     funcnode* hashnode=hashfunctable[hash_pjw(name)].next;
     while (hashnode!=NULL&&strcmp(hashnode->name,name)!=0)
         hashnode=hashnode->next;
@@ -542,7 +544,24 @@ uint32_t hash_pjw(char* name){
     return val;
 }
 
+void add_read_write(){
+    funcnode* funcread=(funcnode*)malloc(sizeof(funcnode));
+    funcread->kind=0;
+    funcread->par_num=-1;
+    funcread->name="read";
+    hash_funcinsert(funcread);
+    funcnode* funcwrite=(funcnode*)malloc(sizeof(funcnode));
+    funcwrite->name="write";
+    funcwrite->kind=0;
+    funcwrite->par_num=0;
+    funcwrite->para[0]=(senode*)malloc(sizeof(senode));
+    funcwrite->para[0]->type=(setype*)malloc(sizeof(setype));
+    funcwrite->para[0]->type->kind=BASIC;
+    funcwrite->para[0]->type->basic=0;
+    hash_funcinsert(funcwrite);
+}
 void hash_init(){
     for (int i=0; i<16384; i++) hashtable[i].next=NULL;
     for (int i=0; i<16384; i++) hashfunctable[i].next=NULL;
+    add_read_write();
 }

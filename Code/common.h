@@ -5,6 +5,8 @@
 #include "stdlib.h"
 #include "string.h"
 
+#define DEBUG 1
+
 typedef struct YYLTYPE  {  
     int first_line;  
     int first_column;  

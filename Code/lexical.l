@@ -54,6 +54,8 @@ return  {addleaf("RETURN"); return RETURN;}
 if      {addleaf("IF"); return IF;}
 else    {addleaf("ELSE"); return ELSE;}
 while   {addleaf("WHILE"); return WHILE;}
+read    {addleaf("ID"); return ID;}
+write   {addleaf("ID"); return ID;}
 {ID}    {addleaf("ID"); return ID;}
 .       {
         errorrec=1;

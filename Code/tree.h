@@ -59,5 +59,8 @@ void addleaf(char *name);
 treenode* addnode(char* name,int child_num,...);
 void traversal(treenode* root,int indent);
 void semantic_traversal(treenode*);
+void operand_traversal(treenode*);
+senode* hash_find(char*);
 void hash_init();
+void operand_init();
 #endif

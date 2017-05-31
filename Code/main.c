@@ -9,6 +9,7 @@ int main(int argc,char** argv){
         }
     }
     hash_init();
+    operand_init();
     yyparse();
     return 0;
 }
