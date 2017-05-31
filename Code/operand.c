@@ -39,9 +39,21 @@ InterCodes* translate_FunDec(treenode* root){
 
 
 InterCodes* translate_VarList(treenode* root){
-    return NULL;
+    InterCodes* code1=translate_ParamDec(root->child);;
+    if (root->child->sibling!=NULL){
+        InterCodes* code2=translate_VarList(root->child->sibling->sibling);
+        return bindCode(code1,code2);
+    }
+    return code1;
 }
 
+InterCodes* translate_ParamDec(treenode* root){
+    Operand* op1=new_id(root->child->sibling->info->name);
+    InterCodes* code1=new_InterCodes();
+    code1->code.kind=PARAM;
+    code1->code.u.sigop.result=op1;
+    return code1;
+}
 InterCodes* translate_CompSt(treenode* root){
     InterCodes* code1=translate_DefList(root->child->sibling);
     InterCodes* code2=translate_StmtList(root->child->sibling->sibling);
@@ -621,6 +633,20 @@ void operandoutput(InterCodes* codelist){
                     printf("FUNCTION ");
                     operanddeal(code->code.u.sigop.result);
                     printf(" :\n");
+                    break;
+                }
+            case ARG:
+                {
+                    printf("ARG ");
+                    operanddeal(code->code.u.sigop.result);
+                    printf("\n");
+                    break;
+                }
+            case PARAM:
+                {
+                    printf("PARAM ");
+                    operanddeal(code->code.u.sigop.result);
+                    printf("\n");
                     break;
                 }
             default: break;

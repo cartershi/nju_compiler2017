@@ -3,6 +3,9 @@
 #include "semantic.h"
 
 void semantic_traversal(treenode* root){
+    #ifdef LAB3
+    freopen("semantic.tt","w",stdout);
+    #endif
     root->info=(senode*)malloc(sizeof(senode));
     root->info->type=(setype*)malloc(sizeof(setype));
     if (root->child!=NULL) semantic_traversal(root->child);

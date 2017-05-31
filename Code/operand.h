@@ -54,6 +54,7 @@ InterCodes* translate_ExtDefList(treenode*);
 InterCodes* translate_ExtDef(treenode*);
 InterCodes* translate_FunDec(treenode*);
 InterCodes* translate_VarList(treenode*);
+InterCodes* translate_ParamDec(treenode*);
 InterCodes* translate_CompSt(treenode*);
 InterCodes* translate_DefList(treenode*);
 InterCodes* translate_DefList(treenode*);
