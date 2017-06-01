@@ -6,6 +6,7 @@ void yyerror(char* msg);
 extern int yylineno;
 extern char* yytext;
 int errorrec=0;
+treenode* treeroot;
 %}
 
 %union{
@@ -41,18 +42,8 @@ DecList Dec Exp Args
 /*High-level Definitions*/
 Program:ExtDefList{
            $$=addnode("Program",1,$1);
-           if (errorrec==0){
-               //traversal($$,0);
-               #if DEBUG
-                printf("semantic_begin\n");
-               #endif
-                semantic_traversal($$);
-               #if DEBUG
-                printf("semantic_end\n");
-               #endif
-               operand_traversal($$);
-               }
-       }
+           treeroot=$$;
+      }
         ;
 ExtDefList:{$$=addnode("ExtDefList",0);}
           |ExtDef ExtDefList{$$=addnode("ExtDefList",2,$1,$2);}

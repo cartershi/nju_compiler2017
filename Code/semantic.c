@@ -3,9 +3,9 @@
 #include "semantic.h"
 
 void semantic_traversal(treenode* root){
-    #ifdef LAB3
+#ifdef LAB3
     freopen("semantic.tt","w",stdout);
-    #endif
+#endif
     root->info=(senode*)malloc(sizeof(senode));
     root->info->type=(setype*)malloc(sizeof(setype));
     if (root->child!=NULL) semantic_traversal(root->child);
@@ -30,15 +30,15 @@ void semantic_traversal(treenode* root){
 
         }
         if (strcmp(root->child->sibling->name,"ExtDecList")==0){  
-           if (root->child->info->type->kind==BASIC){
-               if (strcmp(root->child->info->name,"int")==0)
-                newkind(root,0);    //int
-            else 
-                newkind(root,1);    //float
-        }
-           if (root->child->info->type->kind==STRUCTURE){
-               newdefst(root);
-           }
+            if (root->child->info->type->kind==BASIC){
+                if (strcmp(root->child->info->name,"int")==0)
+                    newkind(root,0);    //int
+                else 
+                    newkind(root,1);    //float
+            }
+            if (root->child->info->type->kind==STRUCTURE){
+                newdefst(root);
+            }
         }
     }
     if (strcmp(name,"ExtDecList")==0){
@@ -110,7 +110,7 @@ void semantic_traversal(treenode* root){
                 newpara(root,1);    //float
         }
         if (root->child->info->type->kind==STRUCTURE){
-
+            newparast(root);
         }
     }
     if (strcmp(name,"CompSt")==0){
@@ -210,18 +210,20 @@ void handle_Exp(treenode* root){
         if (strcmp(root->child->sibling->name,"DOT")==0){
             //waiting
             senode* goal=hash_find(root->child->info->name);
-            if (goal->type->kind!=STRUCTURE)
-                printf("Error type 13 at Line %d: Illegal use of \".\".\n",root->child->sibling->line);
-            else
-            {
-                int findstre=find_st_id(goal,root->child->sibling->sibling->character,root->child->sibling->sibling->line);
-                if (findstre==1){
-                    goal=hash_find(root->child->sibling->sibling->character);
-                    root->exp_type=goal->type->basic;
-                    //printf(". %d\n",root->exp_type);
-                }
+            if (goal!=NULL){
+                if (goal->type->kind!=STRUCTURE)
+                    printf("Error type 13 at Line %d: Illegal use of \".\".\n",root->child->sibling->line);
                 else
-                    root->exp_type=EMISS;
+                {
+                    int findstre=find_st_id(goal,root->child->sibling->sibling->character,root->child->sibling->sibling->line);
+                    if (findstre==1){
+                        goal=hash_find(root->child->sibling->sibling->character);
+                        root->exp_type=goal->type->basic;
+                        //printf(". %d\n",root->exp_type);
+                    }
+                    else
+                        root->exp_type=EMISS;
+                }
             }
             return;
         }   //Exp RELOP/PLUS/MINUS/STAR/DIV Exp
@@ -258,7 +260,7 @@ void handle_Exp(treenode* root){
     if (strcmp(root->child->name,"ID")==0){
         if (root->child->sibling!=NULL){
             funcnode* goalnode=hash_funcfind(root->child->character);//find the func namedID
-          
+
             if (goalnode!=NULL){
                 deal_func_use(root,goalnode);
                 root->exp_type=goalnode->kind;
@@ -349,8 +351,16 @@ void basicoutput(int bb){
     else printf("float");
 }
 
-void newexfst(treenode* root){
-
+void newparast(treenode* root){    
+    fieldlist* startlist=root->child->child->info->type->structure;
+    treenode* Varnode=root->child->sibling;
+    senode* goal;
+    goal=hash_find(Varnode->info->name);
+    if (goal==NULL){
+        Varnode->info->type->structure=startlist;
+        Varnode->info->type->kind=STRUCTURE;
+        hash_insert(Varnode->info);
+    }
 }
 void newdefst(treenode* root){
     fieldlist* startlist=root->child->child->info->type->structure;
@@ -366,7 +376,7 @@ void newdefst(treenode* root){
         }
         else
             printf("Error type 3 at Line %d: Redefined variable \"%s\".\n",Defnode->line,Defnode->info->name);
-        
+
         Defnode=Defnode->sibling;
         if (Defnode!=NULL) Defnode=Defnode->sibling;
     }
@@ -411,9 +421,9 @@ void newst(treenode* root){
         Defnode=Defnode->child->sibling;
     }
     /*fieldlist* jjjj=root->info->type->structure;
-    while (jjjj!=NULL){
-        printf("%d\n",jjjj->type->basic);
-        jjjj=jjjj->tail;}*/
+      while (jjjj!=NULL){
+      printf("%d\n",jjjj->type->basic);
+      jjjj=jjjj->tail;}*/
     if (root->info->struct_name!=NULL){
         if (hash_find(root->info->struct_name)!=NULL)
             printf("Error type 16 at Line %d: Duplicated name \"%s\".\n",root->line,root->info->struct_name);

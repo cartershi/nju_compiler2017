@@ -14,7 +14,6 @@ BASIC	tree.h	/^    enum { BASIC,ARRAY, STRUCTURE } kind;$/;"	e	enum:setype_struc
 CALLFUNC	operand.h	/^        LABEL_GOTO, READ, WRITE, CALLFUNC, FUNCTION,$/;"	e	enum:InterCode_::__anon10
 CONSTANT	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
 CompSt	syntax.y	/^CompSt:LC DefList StmtList RC {$$=addnode("CompSt",4,$1,$2,$3,$4);}$/;"	l
-DEBUG	common.h	8;"	d
 DEC	operand.h	/^        ARG, PARAM, REFASSIGN, DEC } kind;$/;"	e	enum:InterCode_::__anon10
 DIV_	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
 Dec	syntax.y	/^Dec:VarDec {$$=addnode("Dec",1,$1);}$/;"	l
@@ -78,6 +77,7 @@ InterCodes_::code	operand.h	/^    struct InterCode_ code; $/;"	m	struct:InterCod
 InterCodes_::next	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:InterCodes_	typeref:struct:InterCodes_::	access:public
 InterCodes_::prev	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:InterCodes_	typeref:struct:InterCodes_::InterCodes_	access:public
 JUMP	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
+LAB3	common.h	9;"	d
 LABEL	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
 LABEL_CODE	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
 LABEL_GOTO	operand.h	/^        LABEL_GOTO, READ, WRITE, CALLFUNC, FUNCTION,$/;"	e	enum:InterCode_::__anon10
@@ -126,7 +126,7 @@ YYLTYPE::first_column	common.h	/^    int first_column;  $/;"	m	struct:YYLTYPE	ac
 YYLTYPE::first_line	common.h	/^    int first_line;  $/;"	m	struct:YYLTYPE	access:public
 YYLTYPE::last_column	common.h	/^    int last_column;  $/;"	m	struct:YYLTYPE	access:public
 YYLTYPE::last_line	common.h	/^    int last_line;  $/;"	m	struct:YYLTYPE	access:public
-YYLTYPE_IS_DECLARED	common.h	19;"	d
+YYLTYPE_IS_DECLARED	common.h	20;"	d
 _COMPILERS_CODE_COMMON	common.h	2;"	d
 _COMPILERS_CODE_TREE	tree.h	2;"	d
 _COMPLIERS_CODE_OPERAND	operand.h	2;"	d
@@ -227,13 +227,14 @@ newarray	semantic.c	/^void newarray(treenode* root,int bb){$/;"	f	signature:(tre
 newarray	semantic.h	/^void newarray(treenode*,int);$/;"	p	signature:(treenode*,int)
 newdefst	semantic.c	/^void newdefst(treenode* root){$/;"	f	signature:(treenode* root)
 newdefst	semantic.h	/^void newdefst(treenode*);$/;"	p	signature:(treenode*)
-newexfst	semantic.c	/^void newexfst(treenode* root){$/;"	f	signature:(treenode* root)
 newfunc	semantic.c	/^void newfunc(treenode* root,int bb){$/;"	f	signature:(treenode* root,int bb)
 newfunc	semantic.h	/^void newfunc(treenode*,int);$/;"	p	signature:(treenode*,int)
 newkind	semantic.c	/^void newkind(treenode* root,int bb){$/;"	f	signature:(treenode* root,int bb)
 newkind	semantic.h	/^void newkind(treenode*,int);$/;"	p	signature:(treenode*,int)
 newpara	semantic.c	/^void newpara(treenode* root,int bb){$/;"	f	signature:(treenode* root,int bb)
 newpara	semantic.h	/^void newpara(treenode*,int);$/;"	p	signature:(treenode*,int)
+newparast	semantic.c	/^void newparast(treenode* root){    $/;"	f	signature:(treenode* root)
+newparast	semantic.h	/^void newparast(treenode*);$/;"	p	signature:(treenode*)
 newst	semantic.c	/^void newst(treenode* root){$/;"	f	signature:(treenode* root)
 newst	semantic.h	/^void newst(treenode*);$/;"	p	signature:(treenode*)
 next	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:InterCodes_	typeref:struct:InterCodes_::	access:public
@@ -303,6 +304,8 @@ translate_ExtDefList	operand.c	/^InterCodes* translate_ExtDefList(treenode* root
 translate_ExtDefList	operand.h	/^InterCodes* translate_ExtDefList(treenode*);$/;"	p	signature:(treenode*)
 translate_FunDec	operand.c	/^InterCodes* translate_FunDec(treenode* root){$/;"	f	signature:(treenode* root)
 translate_FunDec	operand.h	/^InterCodes* translate_FunDec(treenode*);$/;"	p	signature:(treenode*)
+translate_ParamDec	operand.c	/^InterCodes* translate_ParamDec(treenode* root){$/;"	f	signature:(treenode* root)
+translate_ParamDec	operand.h	/^InterCodes* translate_ParamDec(treenode*);$/;"	p	signature:(treenode*)
 translate_Program	operand.c	/^InterCodes* translate_Program(treenode* root){$/;"	f	signature:(treenode* root)
 translate_Program	operand.h	/^InterCodes* translate_Program(treenode*);$/;"	p	signature:(treenode*)
 translate_Stmt	operand.c	/^InterCodes* translate_Stmt(treenode* root){$/;"	f	signature:(treenode* root)

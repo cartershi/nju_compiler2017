@@ -48,11 +48,16 @@ InterCodes* translate_VarList(treenode* root){
 }
 
 InterCodes* translate_ParamDec(treenode* root){
+    InterCodes* code1=translate_VarDec(root->child->sibling);
+    if (code1!=NULL){
+        printf("Cannot translate: Code contains variables or parameters of structure type.\n");
+        exit(0);
+    }
     Operand* op1=new_id(root->child->sibling->info->name);
-    InterCodes* code1=new_InterCodes();
-    code1->code.kind=PARAM;
-    code1->code.u.sigop.result=op1;
-    return code1;
+    InterCodes* code2=new_InterCodes();
+    code2->code.kind=PARAM;
+    code2->code.u.sigop.result=op1;
+    return code2;
 }
 InterCodes* translate_CompSt(treenode* root){
     InterCodes* code1=translate_DefList(root->child->sibling);
@@ -61,9 +66,64 @@ InterCodes* translate_CompSt(treenode* root){
 }
 
 InterCodes* translate_DefList(treenode* root){
+    if (root->child!=NULL){
+        InterCodes* code1=translate_Def(root->child);
+        InterCodes* code2=translate_DefList(root->child->sibling);
+        return bindCode(code1,code2);
+    }
     return NULL;
 }
 
+InterCodes* translate_Def(treenode* root){
+    return translate_DecList(root->child->sibling);
+}
+
+InterCodes* translate_DecList(treenode* root){
+    InterCodes* code1=translate_Dec(root->child);
+    if (root->child->sibling!=NULL){
+        InterCodes* code2=translate_DecList(root->child->sibling->sibling);
+        return bindCode(code1,code2);
+    }
+    return code1;
+}
+
+InterCodes* translate_Dec(treenode* root){
+    if (root->child->sibling!=NULL){
+        InterCodes* code1=new_InterCodes();
+        Operand* op1=new_id(root->child->child->character);
+        Operand* op2=new_const(root->child->sibling->sibling->exp_rec.exp_int);
+        code1->code.kind=ASSIGN;
+        code1->code.u.assign.left=op1;
+        code1->code.u.assign.right=op2;
+        return code1;
+    }
+    InterCodes* code1=translate_VarDec(root->child);
+    return code1;
+}
+
+InterCodes* translate_VarDec(treenode* root){
+    if (!strcmp(root->child->name,"VarDec")){
+        return translate_VarDec(root->child);
+    }
+    if (!strcmp(root->child->name,"ID")){
+        senode* goalnode=hash_find(root->child->character);
+        if (goalnode->type->kind==ARRAY){
+            setype* arraynode=goalnode->type->array.elem;
+            if (arraynode->array.elem->kind!=BASIC){
+                printf("Cannot translate: Code contains variables of multi-dimensional array type or parameters of array type.\n");
+                exit(0);
+            }
+            InterCodes* code1=new_InterCodes();
+            Operand* op1=new_id(root->child->character);
+            Operand* op2=new_int(4*arraynode->array.size); 
+            code1->code.kind=DEC;
+            code1->code.u.assign.left=op1;
+            code1->code.u.assign.right=op2;
+            return code1;
+        }
+    }
+    return NULL;
+}
 InterCodes* translate_StmtList(treenode* root){
     if (root->child!=NULL){
         InterCodes* code1=translate_Stmt(root->child);
@@ -360,17 +420,64 @@ InterCodes* translate_Exp(treenode *root,Operand* op){
         }
         if (!strcmp(root->child->sibling->name,"ASSIGNOP")){
             Operand* op1=new_temp();
-            Operand* op2=new_id(root->child->child->character);
+            Operand* op2=new_temp();
             InterCodes* code1=translate_Exp(root->child->sibling->sibling,op1);
-            InterCodes* code2=new_InterCodes();
-            code2->code.kind=ASSIGN;
-            code2->code.u.assign.left=op2;
-            code2->code.u.assign.right=op1;
+            InterCodes* code2=translate_Exp(root->child,op2);
+
+            if (op2->kind==ADDRESS){
+                InterCodes* code3=new_InterCodes();
+                code3->code.kind=ASSIGN;
+                code3->code.u.assign.left=op2;
+                code3->code.u.assign.right=op1;                        
+
+                InterCodes* code4=new_InterCodes();
+                code4->code.kind=ASSIGN;
+                code4->code.u.assign.left=op;
+                code4->code.u.assign.right=op2;
+                return bindCode(bindCode(bindCode(code1,code2),code3),code4);
+            }
+            else{
+                code2=new_InterCodes();
+                code2->code.kind=ASSIGN;
+                op2=new_id(root->child->child->character);
+                code2->code.u.assign.left=op2;
+                code2->code.u.assign.right=op1;
+                InterCodes* code3=new_InterCodes();
+                code3->code.kind=ASSIGN;
+                code3->code.u.assign.left=op;
+                code3->code.u.assign.right=op2;
+                return bindCode(bindCode(code1,code2),code3);
+            }
+        }
+        if (!strcmp(root->child->sibling->name,"LB")){
+            InterCodes* code1=new_InterCodes();
+            Operand* op1=new_temp();
+            Operand* op2=new_id(root->child->child->character);
+            code1->code.kind=ASSIGN;
+            code1->code.u.assign.left=op1;
+            code1->code.u.assign.right=op2;
+
+            Operand* op3=new_temp();
+            InterCodes* code2=translate_Exp(root->child->sibling->sibling,op3);
+
             InterCodes* code3=new_InterCodes();
-            code3->code.kind=ASSIGN;
-            code3->code.u.assign.left=op;
-            code3->code.u.assign.right=op2;
-            return bindCode(bindCode(code1,code2),code3);
+            code3->code.kind=MUL;
+            code3->code.u.binop.result=op3;
+            code3->code.u.binop.op1=op3;
+            code3->code.u.binop.op2=new_const(4);
+
+            InterCodes* code4=new_InterCodes();
+            code4->code.kind=ADD;
+            code4->code.u.binop.result=op1;
+            code4->code.u.binop.op1=op1;
+            code4->code.u.binop.op2=op3;
+
+            op->kind=ADDRESS;
+            InterCodes* code5=new_InterCodes();
+            code5->code.kind=REFASSIGN;
+            code5->code.u.assign.left=op;
+            code5->code.u.assign.right=op1;
+            return bindCode(bindCode(bindCode(bindCode(code1,code2),code3),code4),code5);
         }
     }
     if (!strcmp(root->child->name,"MINUS")){    //MINUS Exp
@@ -384,7 +491,7 @@ InterCodes* translate_Exp(treenode *root,Operand* op){
         return bindCode(code1,code2);
     }
     if (!strcmp(root->child->name,"LP")){
-            return translate_Exp(root->child->sibling,op);
+        return translate_Exp(root->child->sibling,op);
     }
 }
 
@@ -415,6 +522,17 @@ Operand* new_const(int value){
     op->u.value=value;
     return op;
 }
+Operand* new_addr(){
+    Operand* op=(Operand*)malloc(sizeof(Operand));
+    op->kind=ADDRESS;
+    return op;
+}
+Operand* new_int(int value){
+    Operand* op=(Operand*)malloc(sizeof(Operand));
+    op->kind=INTEGER;
+    op->u.value=value;
+    return op;
+}
 Operand* new_temp(){
     varnum++;
     Operand* op=(Operand*)malloc(sizeof(Operand));
@@ -423,11 +541,11 @@ Operand* new_temp(){
     return op;
 }
 /*Operand* new_var(char* character){
-    Operand* op=(Operand*)malloc(sizeof(Operand));
-    op->kind=VARIABLE;
-    op->u.name=character;
-    return op;
-}*/
+  Operand* op=(Operand*)malloc(sizeof(Operand));
+  op->kind=VARIABLE;
+  op->u.name=character;
+  return op;
+  }*/
 Operand* new_id(char* character){
     Operand* op=(Operand*)malloc(sizeof(Operand));
     op->kind=ID_STR;
@@ -489,6 +607,12 @@ void operanddeal(Operand* op){
             }
         case ADDRESS:
             {
+                printf("*v%d",op->u.var_no);
+                break;
+            }
+        case INTEGER:
+            {
+                printf("%d",op->u.value);
                 break;
             }
         case LABEL:
@@ -518,7 +642,6 @@ void operanddeal(Operand* op){
     }
 }
 void operandoutput(InterCodes* codelist){
-    freopen("../../irsim/1.ir","w",stdout);
     InterCodes* code=codelist;
     do{
         switch (code->code.kind){
@@ -646,6 +769,40 @@ void operandoutput(InterCodes* codelist){
                 {
                     printf("PARAM ");
                     operanddeal(code->code.u.sigop.result);
+                    printf("\n");
+                    break;
+                }
+            case DEC:
+                {
+                    printf("DEC ");
+                    operanddeal(code->code.u.assign.left);
+                    printf(" ");
+                    operanddeal(code->code.u.assign.right);
+                    printf("\n");
+                    break;
+                }
+            case REFASSIGN:
+                {
+                    int flag=0;
+                    if (code->code.u.assign.left->kind==ADDRESS){
+                        code->code.u.assign.left->kind=VARIABLE;
+                        flag=1;
+                    }
+                    operanddeal(code->code.u.assign.left);
+                    if (flag==1){
+                        code->code.u.assign.left->kind=ADDRESS;
+                        flag=0;
+                    }
+                    printf(" := ");
+                    if (code->code.u.assign.right->kind==ADDRESS){
+                        code->code.u.assign.right->kind=VARIABLE;
+                        flag=1;
+                    }
+                    operanddeal(code->code.u.assign.right);
+                    if (flag==1){
+                        code->code.u.assign.right->kind=ADDRESS;
+                        flag=0;
+                    }
                     printf("\n");
                     break;
                 }

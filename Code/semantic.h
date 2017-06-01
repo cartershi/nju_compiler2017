@@ -8,6 +8,7 @@ void newarray(treenode*,int);
 void newpara(treenode*,int);
 void newfunc(treenode*,int);
 void newdefst(treenode*);
+void newparast(treenode*);
 
 void handle_Exp(treenode*);
 void deal_func_use(treenode*,funcnode*);
