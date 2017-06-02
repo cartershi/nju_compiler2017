@@ -6,7 +6,7 @@ typedef struct Operand_ Operand;
 typedef struct InterCode_ InterCode;
 typedef struct InterCodes_ InterCodes;
 struct Operand_ {
-    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR, INTEGER} kind;
+    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;
     union {
         int var_no;
         int value;
@@ -43,6 +43,7 @@ Operand* new_temp();
 Operand* new_id(char*);
 Operand* new_int(int);
 Operand* new_addr();
+Operand* new_array(char*);
 Operand* new_label();
 Operand* new_opera(op_def);
 Operand* new_const(int);

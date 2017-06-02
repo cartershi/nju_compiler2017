@@ -53,6 +53,7 @@ InterCodes* translate_ParamDec(treenode* root){
         printf("Cannot translate: Code contains variables or parameters of structure type.\n");
         exit(0);
     }
+    //printf("%s\n",root->child->sibling->info->name);
     Operand* op1=new_id(root->child->sibling->info->name);
     InterCodes* code2=new_InterCodes();
     code2->code.kind=PARAM;
@@ -452,7 +453,7 @@ InterCodes* translate_Exp(treenode *root,Operand* op){
         if (!strcmp(root->child->sibling->name,"LB")){
             InterCodes* code1=new_InterCodes();
             Operand* op1=new_temp();
-            Operand* op2=new_id(root->child->child->character);
+            Operand* op2=new_array(root->child->child->character);
             code1->code.kind=ASSIGN;
             code1->code.u.assign.left=op1;
             code1->code.u.assign.right=op2;
@@ -512,7 +513,7 @@ InterCodes* translate_Args(treenode* root, Operand** arg_list,int* length){
         for (int i=*length; i>1; i--) arg_list[i]=arg_list[i-1];
         arg_list[1]=op1;
         InterCodes* code2=translate_Args(root->child->sibling->sibling,arg_list,length);
-        return code1;
+        return bindCode(code1,code2);
     }
 }
 
@@ -546,9 +547,16 @@ Operand* new_temp(){
   op->u.name=character;
   return op;
   }*/
+
 Operand* new_id(char* character){
     Operand* op=(Operand*)malloc(sizeof(Operand));
     op->kind=ID_STR;
+    op->u.name=character;
+    return op;
+}
+Operand* new_array(char* character){
+    Operand* op=(Operand*)malloc(sizeof(Operand));
+    op->kind=ARRAY_ID;
     op->u.name=character;
     return op;
 }
@@ -623,6 +631,11 @@ void operanddeal(Operand* op){
         case ID_STR:
             {
                 printf("%s",op->u.name);
+                break;
+            }
+        case ARRAY_ID:
+            {
+                printf("&%s",op->u.name);
                 break;
             }
         case OPERATOR:
