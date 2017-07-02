@@ -42,7 +42,7 @@ DecList Dec Exp Args
 /*High-level Definitions*/
 Program:ExtDefList{
            $$=addnode("Program",1,$1);
-           //traversal($$,0);
+           traversal($$,0);
            treeroot=$$;
       }
         ;

@@ -90,13 +90,15 @@ InterCodes* translate_DecList(treenode* root){
 
 InterCodes* translate_Dec(treenode* root){
     if (root->child->sibling!=NULL){
-        InterCodes* code1=new_InterCodes();
         Operand* op1=new_id(root->child->child->character);
-        Operand* op2=new_const(root->child->sibling->sibling->exp_rec.exp_int);
-        code1->code.kind=ASSIGN;
-        code1->code.u.assign.left=op1;
-        code1->code.u.assign.right=op2;
-        return code1;
+        //Operand* op2=new_const(root->child->sibling->sibling->exp_rec.exp_int);
+        Operand* op2=new_temp();
+        InterCodes* code1=translate_Exp(root->child->sibling->sibling,op2);
+        InterCodes* code2=new_InterCodes();
+        code2->code.kind=ASSIGN;
+        code2->code.u.assign.left=op1;
+        code2->code.u.assign.right=op2;
+        return bindCode(code1,code2);
     }
     InterCodes* code1=translate_VarDec(root->child);
     return code1;
@@ -318,6 +320,8 @@ InterCodes* translate_Exp(treenode *root,Operand* op){
                 InterCodes* code1=new_InterCodes();
                 code1->code.kind=CALLFUNC;
                 code1->code.u.assign.left=op;
+                if (op==NULL) 
+                    code1->code.u.assign.left=new_temp();
                 code1->code.u.assign.right=new_id(root->child->character);
                 return code1;
             }
@@ -341,6 +345,8 @@ InterCodes* translate_Exp(treenode *root,Operand* op){
                 InterCodes* code2=new_InterCodes();
                 code2->code.kind=CALLFUNC;
                 code2->code.u.assign.left=op;
+                if (op==NULL) 
+                    code2->code.u.assign.left=new_temp();
                 code2->code.u.assign.right=new_id(root->child->character);
                 return bindCode(code1,code2);
             }

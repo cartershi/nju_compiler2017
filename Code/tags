@@ -5,14 +5,15 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 ADD	operand.h	/^        ASSIGN, ADD, SUB, MUL,$/;"	e	enum:InterCode_::__anon10
-ADDRESS	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
+ADDRESS	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 ARG	operand.h	/^        ARG, PARAM, REFASSIGN, DEC } kind;$/;"	e	enum:InterCode_::__anon10
 ARRAY	tree.h	/^    enum { BASIC,ARRAY, STRUCTURE } kind;$/;"	e	enum:setype_struct::__anon4
+ARRAY_ID	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 ASSIGN	operand.h	/^        ASSIGN, ADD, SUB, MUL,$/;"	e	enum:InterCode_::__anon10
 Args	syntax.y	/^Args:Exp COMMA Args {$$=addnode("Args",3,$1,$2,$3);}$/;"	l
 BASIC	tree.h	/^    enum { BASIC,ARRAY, STRUCTURE } kind;$/;"	e	enum:setype_struct::__anon4
 CALLFUNC	operand.h	/^        LABEL_GOTO, READ, WRITE, CALLFUNC, FUNCTION,$/;"	e	enum:InterCode_::__anon10
-CONSTANT	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
+CONSTANT	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 CompSt	syntax.y	/^CompSt:LC DefList StmtList RC {$$=addnode("CompSt",4,$1,$2,$3,$4);}$/;"	l
 DEC	operand.h	/^        ARG, PARAM, REFASSIGN, DEC } kind;$/;"	e	enum:InterCode_::__anon10
 DIV_	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
@@ -34,7 +35,8 @@ FUNCTION	operand.h	/^        LABEL_GOTO, READ, WRITE, CALLFUNC, FUNCTION,$/;"	e	
 FunDec	syntax.y	/^FunDec:ID LP VarList RP {$$=addnode("FunDec",4,$1,$2,$3,$4);}$/;"	l
 GE	operand.h	/^typedef enum {GT, LT, EQ, GE, LE, NE} op_def;$/;"	e	enum:__anon7
 GT	operand.h	/^typedef enum {GT, LT, EQ, GE, LE, NE} op_def;$/;"	e	enum:__anon7
-ID_STR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
+ID_STR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+INTEGER	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 InterCode	operand.h	/^typedef struct InterCode_ InterCode;$/;"	t	typeref:struct:InterCode_
 InterCode_	operand.h	/^struct InterCode_$/;"	s
 InterCode_::ADD	operand.h	/^        ASSIGN, ADD, SUB, MUL,$/;"	e	enum:InterCode_::__anon10
@@ -78,7 +80,7 @@ InterCodes_::next	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:
 InterCodes_::prev	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:InterCodes_	typeref:struct:InterCodes_::InterCodes_	access:public
 JUMP	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
 LAB3	common.h	9;"	d
-LABEL	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
+LABEL	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 LABEL_CODE	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
 LABEL_GOTO	operand.h	/^        LABEL_GOTO, READ, WRITE, CALLFUNC, FUNCTION,$/;"	e	enum:InterCode_::__anon10
 LABEL_TRUE	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
@@ -86,21 +88,23 @@ LE	operand.h	/^typedef enum {GT, LT, EQ, GE, LE, NE} op_def;$/;"	e	enum:__anon7
 LT	operand.h	/^typedef enum {GT, LT, EQ, GE, LE, NE} op_def;$/;"	e	enum:__anon7
 MUL	operand.h	/^        ASSIGN, ADD, SUB, MUL,$/;"	e	enum:InterCode_::__anon10
 NE	operand.h	/^typedef enum {GT, LT, EQ, GE, LE, NE} op_def;$/;"	e	enum:__anon7
-OPERATOR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
+OPERATOR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 Operand	operand.h	/^typedef struct Operand_ Operand;$/;"	t	typeref:struct:Operand_
 Operand_	operand.h	/^struct Operand_ {$/;"	s
-Operand_::ADDRESS	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
-Operand_::CONSTANT	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
-Operand_::ID_STR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
-Operand_::LABEL	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
-Operand_::OPERATOR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
-Operand_::VARIABLE	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::ADDRESS	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::ARRAY_ID	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::CONSTANT	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::ID_STR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::INTEGER	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::LABEL	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::OPERATOR	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
+Operand_::VARIABLE	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 Operand_::__anon9::lab_no	operand.h	/^        int lab_no;$/;"	m	union:Operand_::__anon9	access:public
 Operand_::__anon9::name	operand.h	/^        char* name;$/;"	m	union:Operand_::__anon9	access:public
 Operand_::__anon9::op_num	operand.h	/^        op_def op_num;$/;"	m	union:Operand_::__anon9	access:public
 Operand_::__anon9::value	operand.h	/^        int value;$/;"	m	union:Operand_::__anon9	access:public
 Operand_::__anon9::var_no	operand.h	/^        int var_no;$/;"	m	union:Operand_::__anon9	access:public
-Operand_::kind	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	m	struct:Operand_	typeref:enum:Operand_::__anon8	access:public
+Operand_::kind	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	m	struct:Operand_	typeref:enum:Operand_::__anon8	access:public
 Operand_::u	operand.h	/^    } u;$/;"	m	struct:Operand_	typeref:union:Operand_::__anon9	access:public
 OptTag	syntax.y	/^OptTag:ID {$$=addnode("OptTag",1,$1);}$/;"	l
 PARAM	operand.h	/^        ARG, PARAM, REFASSIGN, DEC } kind;$/;"	e	enum:InterCode_::__anon10
@@ -116,7 +120,7 @@ Stmt	syntax.y	/^Stmt:Exp SEMI {$$=addnode("Stmt",2,$1,$2);}$/;"	l
 StmtList	syntax.y	/^StmtList:Stmt StmtList {$$=addnode("StmtList",2,$1,$2);}$/;"	l
 StructSpecifier	syntax.y	/^StructSpecifier:STRUCT OptTag LC DefList RC {$/;"	l
 Tag	syntax.y	/^Tag:ID {$$=addnode("Tag",1,$1);}$/;"	l
-VARIABLE	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	e	enum:Operand_::__anon8
+VARIABLE	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 VarDec	syntax.y	/^VarDec:ID {$$=addnode("VarDec",1,$1);}$/;"	l
 VarList	syntax.y	/^VarList:ParamDec COMMA VarList {$$=addnode("VarList",3,$1,$2,$3);}$/;"	l
 WRITE	operand.h	/^        LABEL_GOTO, READ, WRITE, CALLFUNC, FUNCTION,$/;"	e	enum:InterCode_::__anon10
@@ -196,7 +200,7 @@ hashtable	tree.h	/^senode hashtable[16384];$/;"	v
 info	tree.h	/^    struct senode_struct* info;$/;"	m	struct:treenode	typeref:struct:treenode::senode_struct	access:public
 jmp	operand.h	/^        struct { Operand *op1, *op2, *op3, *goal; } jmp;$/;"	m	union:InterCode_::__anon11	typeref:struct:InterCode_::__anon11::__anon15	access:public
 kind	operand.h	/^        ARG, PARAM, REFASSIGN, DEC } kind;$/;"	m	struct:InterCode_	typeref:enum:InterCode_::__anon10	access:public
-kind	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ID_STR, OPERATOR} kind;$/;"	m	struct:Operand_	typeref:enum:Operand_::__anon8	access:public
+kind	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	m	struct:Operand_	typeref:enum:Operand_::__anon8	access:public
 kind	tree.h	/^    enum { BASIC,ARRAY, STRUCTURE } kind;$/;"	m	struct:setype_struct	typeref:enum:setype_struct::__anon4	access:public
 kind	tree.h	/^    int kind;\/\/int=0 float=1$/;"	m	struct:funcnode_struct	access:public
 lab_no	operand.h	/^        int lab_no;$/;"	m	union:Operand_::__anon9	access:public
@@ -213,10 +217,16 @@ name	tree.h	/^    char* name;$/;"	m	struct:senode_struct	access:public
 name	tree.h	/^    char* name;$/;"	m	struct:treenode	access:public
 new_InterCodes	operand.c	/^InterCodes* new_InterCodes(){$/;"	f
 new_InterCodes	operand.h	/^InterCodes* new_InterCodes();$/;"	p	signature:()
+new_addr	operand.c	/^Operand* new_addr(){$/;"	f
+new_addr	operand.h	/^Operand* new_addr();$/;"	p	signature:()
+new_array	operand.c	/^Operand* new_array(char* character){$/;"	f	signature:(char* character)
+new_array	operand.h	/^Operand* new_array(char*);$/;"	p	signature:(char*)
 new_const	operand.c	/^Operand* new_const(int value){$/;"	f	signature:(int value)
 new_const	operand.h	/^Operand* new_const(int);$/;"	p	signature:(int)
 new_id	operand.c	/^Operand* new_id(char* character){$/;"	f	signature:(char* character)
 new_id	operand.h	/^Operand* new_id(char*);$/;"	p	signature:(char*)
+new_int	operand.c	/^Operand* new_int(int value){$/;"	f	signature:(int value)
+new_int	operand.h	/^Operand* new_int(int);$/;"	p	signature:(int)
 new_label	operand.c	/^Operand* new_label(){$/;"	f
 new_label	operand.h	/^Operand* new_label();$/;"	p	signature:()
 new_opera	operand.c	/^Operand* new_opera(op_def value){$/;"	f	signature:(op_def value)
@@ -294,6 +304,12 @@ translate_CompSt	operand.c	/^InterCodes* translate_CompSt(treenode* root){$/;"	f
 translate_CompSt	operand.h	/^InterCodes* translate_CompSt(treenode*);$/;"	p	signature:(treenode*)
 translate_Cond	operand.c	/^InterCodes* translate_Cond(treenode* root,Operand* l_true,Operand* l_false){$/;"	f	signature:(treenode* root,Operand* l_true,Operand* l_false)
 translate_Cond	operand.h	/^InterCodes* translate_Cond(treenode*,Operand*,Operand*);$/;"	p	signature:(treenode*,Operand*,Operand*)
+translate_Dec	operand.c	/^InterCodes* translate_Dec(treenode* root){$/;"	f	signature:(treenode* root)
+translate_Dec	operand.h	/^InterCodes* translate_Dec(treenode*);$/;"	p	signature:(treenode*)
+translate_DecList	operand.c	/^InterCodes* translate_DecList(treenode* root){$/;"	f	signature:(treenode* root)
+translate_DecList	operand.h	/^InterCodes* translate_DecList(treenode*);$/;"	p	signature:(treenode*)
+translate_Def	operand.c	/^InterCodes* translate_Def(treenode* root){$/;"	f	signature:(treenode* root)
+translate_Def	operand.h	/^InterCodes* translate_Def(treenode*);$/;"	p	signature:(treenode*)
 translate_DefList	operand.c	/^InterCodes* translate_DefList(treenode* root){$/;"	f	signature:(treenode* root)
 translate_DefList	operand.h	/^InterCodes* translate_DefList(treenode*);$/;"	p	signature:(treenode*)
 translate_Exp	operand.c	/^InterCodes* translate_Exp(treenode *root,Operand* op){$/;"	f	signature:(treenode *root,Operand* op)
@@ -312,6 +328,8 @@ translate_Stmt	operand.c	/^InterCodes* translate_Stmt(treenode* root){$/;"	f	sig
 translate_Stmt	operand.h	/^InterCodes* translate_Stmt(treenode*);$/;"	p	signature:(treenode*)
 translate_StmtList	operand.c	/^InterCodes* translate_StmtList(treenode* root){$/;"	f	signature:(treenode* root)
 translate_StmtList	operand.h	/^InterCodes* translate_StmtList(treenode*);$/;"	p	signature:(treenode*)
+translate_VarDec	operand.c	/^InterCodes* translate_VarDec(treenode* root){$/;"	f	signature:(treenode* root)
+translate_VarDec	operand.h	/^InterCodes* translate_VarDec(treenode*);$/;"	p	signature:(treenode*)
 translate_VarList	operand.c	/^InterCodes* translate_VarList(treenode* root){$/;"	f	signature:(treenode* root)
 translate_VarList	operand.h	/^InterCodes* translate_VarList(treenode*);$/;"	p	signature:(treenode*)
 traversal	tree.c	/^void traversal(treenode* root,int indent){$/;"	f	signature:(treenode* root,int indent)
