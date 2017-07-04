@@ -80,6 +80,7 @@ InterCodes_::next	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:
 InterCodes_::prev	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:InterCodes_	typeref:struct:InterCodes_::InterCodes_	access:public
 JUMP	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
 LAB3	common.h	9;"	d
+LAB4	common.h	10;"	d
 LABEL	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	e	enum:Operand_::__anon8
 LABEL_CODE	operand.h	/^        DIV_, RETURN_, JUMP, LABEL_CODE, LABEL_TRUE,$/;"	e	enum:InterCode_::__anon10
 LABEL_GOTO	operand.h	/^        LABEL_GOTO, READ, WRITE, CALLFUNC, FUNCTION,$/;"	e	enum:InterCode_::__anon10
@@ -105,6 +106,7 @@ Operand_::__anon9::op_num	operand.h	/^        op_def op_num;$/;"	m	union:Operand
 Operand_::__anon9::value	operand.h	/^        int value;$/;"	m	union:Operand_::__anon9	access:public
 Operand_::__anon9::var_no	operand.h	/^        int var_no;$/;"	m	union:Operand_::__anon9	access:public
 Operand_::kind	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	m	struct:Operand_	typeref:enum:Operand_::__anon8	access:public
+Operand_::offset	operand.h	/^    int offset;$/;"	m	struct:Operand_	access:public
 Operand_::u	operand.h	/^    } u;$/;"	m	struct:Operand_	typeref:union:Operand_::__anon9	access:public
 OptTag	syntax.y	/^OptTag:ID {$$=addnode("OptTag",1,$1);}$/;"	l
 PARAM	operand.h	/^        ARG, PARAM, REFASSIGN, DEC } kind;$/;"	e	enum:InterCode_::__anon10
@@ -130,7 +132,8 @@ YYLTYPE::first_column	common.h	/^    int first_column;  $/;"	m	struct:YYLTYPE	ac
 YYLTYPE::first_line	common.h	/^    int first_line;  $/;"	m	struct:YYLTYPE	access:public
 YYLTYPE::last_column	common.h	/^    int last_column;  $/;"	m	struct:YYLTYPE	access:public
 YYLTYPE::last_line	common.h	/^    int last_line;  $/;"	m	struct:YYLTYPE	access:public
-YYLTYPE_IS_DECLARED	common.h	20;"	d
+YYLTYPE_IS_DECLARED	common.h	21;"	d
+_COMPILERS_CODE_ASSEMBLY	assembly.h	2;"	d
 _COMPILERS_CODE_COMMON	common.h	2;"	d
 _COMPILERS_CODE_TREE	tree.h	2;"	d
 _COMPLIERS_CODE_OPERAND	operand.h	2;"	d
@@ -178,8 +181,10 @@ funcnode_struct::name	tree.h	/^    char* name;$/;"	m	struct:funcnode_struct	acce
 funcnode_struct::next	tree.h	/^    struct funcnode_struct* next;$/;"	m	struct:funcnode_struct	typeref:struct:funcnode_struct::funcnode_struct	access:public
 funcnode_struct::par_num	tree.h	/^    int par_num;$/;"	m	struct:funcnode_struct	access:public
 funcnode_struct::para	tree.h	/^    struct senode_struct* para[20]; $/;"	m	struct:funcnode_struct	typeref:struct:funcnode_struct::senode_struct	access:public
+funcoffset	operand.c	/^static int funcoffset=0;$/;"	v	file:
 get_relop	operand.c	/^op_def get_relop(treenode* root){$/;"	f	signature:(treenode* root)
 get_relop	operand.h	/^op_def get_relop(treenode*);$/;"	p	signature:(treenode*)
+getreg	assembly.c	/^void getreg(Operand* op){$/;"	f	signature:(Operand* op)
 goal	operand.h	/^        struct { Operand *op1, *op2, *op3, *goal; } jmp;$/;"	m	struct:InterCode_::__anon11::__anon15	access:public
 handle_Exp	semantic.c	/^void handle_Exp(treenode* root){$/;"	f	signature:(treenode* root)
 handle_Exp	semantic.h	/^void handle_Exp(treenode*);$/;"	p	signature:(treenode*)
@@ -198,6 +203,7 @@ hash_pjw	semantic.h	/^uint32_t hash_pjw(char*);$/;"	p	signature:(char*)
 hashfunctable	tree.h	/^funcnode hashfunctable[16384];$/;"	v
 hashtable	tree.h	/^senode hashtable[16384];$/;"	v
 info	tree.h	/^    struct senode_struct* info;$/;"	m	struct:treenode	typeref:struct:treenode::senode_struct	access:public
+intertranslate	assembly.c	/^void intertranslate(InterCodes* codelist){$/;"	f	signature:(InterCodes* codelist)
 jmp	operand.h	/^        struct { Operand *op1, *op2, *op3, *goal; } jmp;$/;"	m	union:InterCode_::__anon11	typeref:struct:InterCode_::__anon11::__anon15	access:public
 kind	operand.h	/^        ARG, PARAM, REFASSIGN, DEC } kind;$/;"	m	struct:InterCode_	typeref:enum:InterCode_::__anon10	access:public
 kind	operand.h	/^    enum { VARIABLE, CONSTANT, ADDRESS, LABEL, ARRAY_ID,  ID_STR, OPERATOR, INTEGER} kind;$/;"	m	struct:Operand_	typeref:enum:Operand_::__anon8	access:public
@@ -250,6 +256,8 @@ newst	semantic.h	/^void newst(treenode*);$/;"	p	signature:(treenode*)
 next	operand.h	/^    struct InterCodes_ *prev, *next;$/;"	m	struct:InterCodes_	typeref:struct:InterCodes_::	access:public
 next	tree.h	/^    struct funcnode_struct* next;$/;"	m	struct:funcnode_struct	typeref:struct:funcnode_struct::funcnode_struct	access:public
 next	tree.h	/^    struct senode_struct* next;$/;"	m	struct:senode_struct	typeref:struct:senode_struct::senode_struct	access:public
+offset	operand.h	/^    int offset;$/;"	m	struct:Operand_	access:public
+offset	tree.h	/^    int offset;$/;"	m	struct:senode_struct	access:public
 op1	operand.h	/^        struct { Operand *op1, *op2, *op3, *goal; } jmp;$/;"	m	struct:InterCode_::__anon11::__anon15	access:public
 op1	operand.h	/^        struct { Operand *result, *op1, *op2; } binop;$/;"	m	struct:InterCode_::__anon11::__anon13	access:public
 op2	operand.h	/^        struct { Operand *op1, *op2, *op3, *goal; } jmp;$/;"	m	struct:InterCode_::__anon11::__anon15	access:public
@@ -279,6 +287,7 @@ senode	tree.h	/^}senode;$/;"	t	typeref:struct:senode_struct
 senode_struct	tree.h	/^typedef struct senode_struct{$/;"	s
 senode_struct::name	tree.h	/^    char* name;$/;"	m	struct:senode_struct	access:public
 senode_struct::next	tree.h	/^    struct senode_struct* next;$/;"	m	struct:senode_struct	typeref:struct:senode_struct::senode_struct	access:public
+senode_struct::offset	tree.h	/^    int offset;$/;"	m	struct:senode_struct	access:public
 senode_struct::struct_name	tree.h	/^    char* struct_name;$/;"	m	struct:senode_struct	access:public
 senode_struct::type	tree.h	/^    struct setype_struct* type;$/;"	m	struct:senode_struct	typeref:struct:senode_struct::setype_struct	access:public
 setype	tree.h	/^}setype;$/;"	t	typeref:struct:setype_struct

@@ -7,6 +7,7 @@
 
 //#define DEBUG 1
 #define LAB3 1
+#define LAB4 1
 
 typedef struct YYLTYPE  {  
     int first_line;  

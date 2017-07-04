@@ -3,6 +3,7 @@
 #include "operand.h"
 #include "semantic.h"
 
+static int funcoffset=0;
 InterCodes* translate_Program(treenode* root){
     return translate_ExtDefList(root->child);
 }
@@ -20,6 +21,7 @@ InterCodes* translate_ExtDef(treenode* root){
     if (!strcmp(root->child->sibling->name,"FunDec")){
         InterCodes* code1=translate_FunDec(root->child->sibling);
         InterCodes* code2=translate_CompSt(root->child->sibling->sibling);
+        code1->code.u.sigop.result->offset=funcoffset;
         return bindCode(code1,code2);
     }
     return NULL;
@@ -29,6 +31,7 @@ InterCodes* translate_FunDec(treenode* root){
     InterCodes* code1=new_InterCodes();
     code1->code.kind=FUNCTION;
     Operand* op1=new_id(root->child->character);
+    funcoffset=8;
     code1->code.u.sigop.result=op1;
     if (!strcmp(root->child->sibling->sibling->name,"VarList")){
         InterCodes* code2=translate_VarList(root->child->sibling->sibling);
@@ -118,6 +121,12 @@ InterCodes* translate_VarDec(treenode* root){
             }
             InterCodes* code1=new_InterCodes();
             Operand* op1=new_id(root->child->character);
+            funcoffset=funcoffset-4+4*arraynode->array.size;
+            op1->offset=funcoffset;
+            senode* goalnode=hash_find(root->child->character);
+            if (goalnode!=NULL){
+                goalnode->offset=funcoffset;
+            }
             Operand* op2=new_int(4*arraynode->array.size); 
             code1->code.kind=DEC;
             code1->code.u.assign.left=op1;
@@ -545,6 +554,8 @@ Operand* new_temp(){
     Operand* op=(Operand*)malloc(sizeof(Operand));
     op->kind=VARIABLE;
     op->u.var_no=varnum;
+    funcoffset+=4;
+    op->offset=funcoffset;
     return op;
 }
 /*Operand* new_var(char* character){
@@ -558,12 +569,24 @@ Operand* new_id(char* character){
     Operand* op=(Operand*)malloc(sizeof(Operand));
     op->kind=ID_STR;
     op->u.name=character;
+    senode* goalnode=hash_find(character);
+    if (goalnode!=NULL){
+        if (goalnode->offset==0){      
+            funcoffset+=4;
+            goalnode->offset=funcoffset;
+        }
+        op->offset=goalnode->offset;
+    }
     return op;
 }
 Operand* new_array(char* character){
     Operand* op=(Operand*)malloc(sizeof(Operand));
     op->kind=ARRAY_ID;
     op->u.name=character;
+    senode* goalnode=hash_find(character);
+    if (goalnode!=NULL){
+        op->offset=goalnode->offset;
+    }
     return op;
 }
 Operand* new_label(){
@@ -608,6 +631,7 @@ InterCodes* bindCode(InterCodes* code1,InterCodes* code2){
 }
 
 void operanddeal(Operand* op){
+    printf("(%d)",op->offset);
     switch (op->kind){
         case VARIABLE:
             {
@@ -832,8 +856,11 @@ void operandoutput(InterCodes* codelist){
     while(code!=codelist);
 }
 void operand_traversal(treenode* root){
-    InterCodes* codelist=translate_Program(root);
-    operandoutput(codelist);
+    InterCodes* tricodelist=translate_Program(root);
+#ifndef LAB4
+    operandoutput(tricodelist);
+#endif
+    assembly_traversal(tricodelist);
 }
 void operand_init(){
     varnum=0;

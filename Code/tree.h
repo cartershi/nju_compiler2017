@@ -36,6 +36,7 @@ typedef struct senode_struct{
     struct setype_struct* type;
     char* struct_name;
     struct senode_struct* next;
+    int offset;
 }senode;
 
 typedef struct setype_struct{

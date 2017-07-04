@@ -14,6 +14,7 @@ struct Operand_ {
         char* name;
         op_def op_num;
     } u;
+    int offset;
 };
 struct InterCode_
 {
@@ -34,7 +35,7 @@ struct InterCodes_ {
     struct InterCode_ code; 
     struct InterCodes_ *prev, *next;
 };
-
+void assembly_traversal(InterCodes*);
 InterCodes* bindCode(InterCodes*,InterCodes*);
 InterCodes* new_InterCodes();
 static int varnum;

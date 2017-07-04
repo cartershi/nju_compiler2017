@@ -7,6 +7,7 @@ void semantic_traversal(treenode* root){
     freopen("semantic.tt","w",stdout);
 #endif
     root->info=(senode*)malloc(sizeof(senode));
+    root->info->offset=0;
     root->info->type=(setype*)malloc(sizeof(setype));
     if (root->child!=NULL) semantic_traversal(root->child);
     //printf("%s %d\n",root->name,root->line);
